@@ -44,6 +44,7 @@ if is_prime(number):
 else:
     print(f"{number} is not a prime number.")
 """
+"""
 def func(n):
     if n>50:
         return n-5
@@ -51,3 +52,13 @@ def func(n):
         return func(n+5)
 number = int(input("Enter a number: "))
 print("The result is: ",func(number))
+"""
+
+def sfact(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * sfact(n - 1)
+number = int(input("Enter a number: "))
+result = sfact(number)
+print(f"The factorial of {number} is: {result}")
