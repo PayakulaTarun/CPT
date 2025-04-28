@@ -29,6 +29,8 @@ if is_palindrome(number):
 else:
     print(f"{number} is not a palindrome.")
     """
+
+"""
 def is_prime(n):
     if n <= 1:
         return False
@@ -41,3 +43,11 @@ if is_prime(number):
     print(f"{number} is a prime number.")
 else:
     print(f"{number} is not a prime number.")
+"""
+def func(n):
+    if n>50:
+        return n-5
+    else:
+        return func(n+5)
+number = int(input("Enter a number: "))
+print("The result is: ",func(number))
