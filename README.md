@@ -40,3 +40,12 @@ Functions in python.
 --> Divide and Conqure
 --> Tree
 --> Absolute or Static
+
+---
+
+29th April 2025 Day-3 CPT
+
+OOP's Concept
+
+--> Class
+--> Object
