@@ -91,3 +91,9 @@ import os
 # else:
 #     print(f"{file_name} is not present in the directory.")
 
+folder = "new_folder"
+if not os.path.exists(folder):
+    os.makedirs(folder)
+    print(f"Folder '{folder}' created successfully.")
+else:
+    print(f"Folder '{folder}' already exists.")
