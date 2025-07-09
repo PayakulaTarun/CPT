@@ -107,3 +107,37 @@ import os
 # else:
 #     print(f"Folder '{folder}' does not exist, so it cannot be deleted.")
 
+# Creating a file and writing to it
+# file_path = "d:/cpt/sample.txt"
+# with open(file_path, "w") as file:
+#     file.write("This is a sample file created in the new folder.\n")
+#     file.write("You can add more content here as needed.\n")
+# print(f"File '{file_path}' created and written successfully.")
+
+# Reading the content of the file
+# with open(file_path, "r") as file:
+#     content = file.read()
+#     print("Content of the file:")
+#     print(content)
+
+# Deleting the file
+# if os.path.exists(file_path):
+#     os.remove(file_path)
+#     print(f"File '{file_path}' deleted successfully.")
+# else:
+#     print(f"File '{file_path}' does not exist, so it cannot be deleted.")
+
+# Deleting the folder
+# if os.path.exists("new_folder"):
+#     os.rmdir("new_folder")
+#     print("Folder 'new_folder' deleted successfully.")
+# else:
+#     print("Folder 'new_folder' does not exist, so it cannot be deleted.")
+
+# getting the size of a file
+file_path = "d:/cpt/text.ipynb"
+if os.path.exists(file_path):
+    file_size = os.path.getsize(file_path)
+    print(f"Size of the file '{file_path}': {file_size} bytes")
+else:
+    print(f"File '{file_path}' does not exist, so size cannot be determined.")
