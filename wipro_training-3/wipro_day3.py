@@ -50,5 +50,8 @@ import argparse
 #     print("list after appending:", end=" ")
 #     print(numbers)
 parser = argparse.ArgumentParser(description="Add two numbers")
-parser.add_argument("num1", type=int, help="First number")
-parser.add_argument("num2", type=int, help="Second number")
+parser.add_argument("--x", type=int, required=True ,help="First number")
+parser.add_argument("--y", type=int, required=True ,help="Second number")
+args = parser.parse_args()
+result = args.x + args.y
+print(f"The sum of {args.x} and {args.y} is {result}")
