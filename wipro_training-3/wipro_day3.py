@@ -1,5 +1,6 @@
 import sys
 import argparse
+import os
 # print("script name:", sys.argv[0])
 # print("all arguments:", sys.argv[1:])
 # print("Number of arguments:", len(sys.argv))
@@ -49,23 +50,43 @@ import argparse
 #     print("sum of numbers:", sum(numbers))
 #     print("list after appending:", end=" ")
 #     print(numbers)
-parser = argparse.ArgumentParser(description="Add two numbers")
-parser.add_argument("--x", type=int, required=True ,help="First number")
-parser.add_argument("--y", type=int, required=True ,help="Second number")
-parser.add_argument("--opt" , type=str, required=True, choices=["add", "subtract", "multiply", "divide"], help="Operation to perform")
-args=parser.parse_args()
-if args.opt == "add":
-    result = args.x + args.y
-elif args.opt == "subtract":
-    result = args.x - args.y
-elif args.opt == "multiply":
-    result = args.x * args.y
-elif args.opt == "divide":
-    if args.y == 0:
-        print("Error: Division by zero is not allowed.")
-        sys.exit(1)
-    result = args.x / args.y
+
+# parser = argparse.ArgumentParser(description="Add two numbers")
+# parser.add_argument("--x", type=int, required=True ,help="First number")
+# parser.add_argument("--y", type=int, required=True ,help="Second number")
+# parser.add_argument("--opt" , type=str, required=True, choices=["add", "subtract", "multiply", "divide"], help="Operation to perform")
+# args=parser.parse_args()
+# if args.opt == "add":
+#     result = args.x + args.y
+# elif args.opt == "subtract":
+#     result = args.x - args.y
+# elif args.opt == "multiply":
+#     result = args.x * args.y
+# elif args.opt == "divide":
+#     if args.y == 0:
+#         print("Error: Division by zero is not allowed.")
+#         sys.exit(1)
+#     result = args.x / args.y
+# else:
+#     print("Invalid operation. Please choose from add, subtract, multiply, or divide.")
+#     sys.exit(1)
+# print(f"The result of {args.opt}ing {args.x} and {args.y} is: {result}")
+
+#list the files present in the directory and check if a specific file is present
+
+# path = "d:/cpt"
+# files = os.listdir(path)
+# print("Files in the directory:")
+# for file in files:
+#     if os.path.isfile(os.path.join(path, file)):
+#         print(file)
+
+# finding the file present in the directory
+
+path = "d:/cpt"
+file_name = "wipro_day2.ipynb"
+files = os.listdir(path)
+if file_name in files:
+    print(f"{file_name} is present in the directory.")
 else:
-    print("Invalid operation. Please choose from add, subtract, multiply, or divide.")
-    sys.exit(1)
-print(f"The result of {args.opt}ing {args.x} and {args.y} is: {result}")
+    print(f"{file_name} is not present in the directory.")
