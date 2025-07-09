@@ -100,9 +100,10 @@ import os
 #     print(f"Folder '{folder}' already exists.")
 
 # deleting a folder if it exists
-folder = "new_folder"
-if os.path.exists(folder):
-    os.rmdir(folder)
-    print(f"Folder '{folder}' deleted successfully.")
-else:
-    print(f"Folder '{folder}' does not exist, so it cannot be deleted.")
+# folder = "new_folder"
+# if os.path.exists(folder):
+#     os.rmdir(folder)
+#     print(f"Folder '{folder}' deleted successfully.")
+# else:
+#     print(f"Folder '{folder}' does not exist, so it cannot be deleted.")
+
