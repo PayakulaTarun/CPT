@@ -91,9 +91,18 @@ import os
 # else:
 #     print(f"{file_name} is not present in the directory.")
 
+# Creating a folder if it does not exist
+# folder = "new_folder"
+# if not os.path.exists(folder):
+#     os.makedirs(folder)
+#     print(f"Folder '{folder}' created successfully.")
+# else:
+#     print(f"Folder '{folder}' already exists.")
+
+# deleting a folder if it exists
 folder = "new_folder"
-if not os.path.exists(folder):
-    os.makedirs(folder)
-    print(f"Folder '{folder}' created successfully.")
+if os.path.exists(folder):
+    os.rmdir(folder)
+    print(f"Folder '{folder}' deleted successfully.")
 else:
-    print(f"Folder '{folder}' already exists.")
+    print(f"Folder '{folder}' does not exist, so it cannot be deleted.")
