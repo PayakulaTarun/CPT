@@ -83,10 +83,11 @@ import os
 
 # finding the file present in the directory
 
-path = "d:/cpt"
-file_name = "wipro_day2.ipynb"
-files = os.listdir(path)
-if file_name in files:
-    print(f"{file_name} is present in the directory.")
-else:
-    print(f"{file_name} is not present in the directory.")
+# path = "d:/cpt"
+# file_name = "wipro_day2.ipynb"
+# files = os.listdir(path)
+# if file_name in files:
+#     print(f"{file_name} is present in the directory.")
+# else:
+#     print(f"{file_name} is not present in the directory.")
+
