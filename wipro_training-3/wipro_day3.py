@@ -52,6 +52,20 @@ import argparse
 parser = argparse.ArgumentParser(description="Add two numbers")
 parser.add_argument("--x", type=int, required=True ,help="First number")
 parser.add_argument("--y", type=int, required=True ,help="Second number")
-args = parser.parse_args()
-result = args.x + args.y
-print(f"The sum of {args.x} and {args.y} is {result}")
+parser.add_argument("--opt" , type=str, required=True, choices=["add", "subtract", "multiply", "divide"], help="Operation to perform")
+args=parser.parse_args()
+if args.opt == "add":
+    result = args.x + args.y
+elif args.opt == "subtract":
+    result = args.x - args.y
+elif args.opt == "multiply":
+    result = args.x * args.y
+elif args.opt == "divide":
+    if args.y == 0:
+        print("Error: Division by zero is not allowed.")
+        sys.exit(1)
+    result = args.x / args.y
+else:
+    print("Invalid operation. Please choose from add, subtract, multiply, or divide.")
+    sys.exit(1)
+print(f"The result of {args.opt}ing {args.x} and {args.y} is: {result}")
