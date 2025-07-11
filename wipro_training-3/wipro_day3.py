@@ -135,9 +135,9 @@ import os
 #     print("Folder 'new_folder' does not exist, so it cannot be deleted.")
 
 # getting the size of a file
-file_path = "d:/cpt/text.ipynb"
-if os.path.exists(file_path):
-    file_size = os.path.getsize(file_path)
-    print(f"Size of the file '{file_path}': {file_size} bytes")
-else:
-    print(f"File '{file_path}' does not exist, so size cannot be determined.")
+# file_path = "d:/cpt/text.ipynb"
+# if os.path.exists(file_path):
+#     file_size = os.path.getsize(file_path)
+#     print(f"Size of the file '{file_path}': {file_size} bytes")
+# else:
+#     print(f"File '{file_path}' does not exist, so size cannot be determined.")
