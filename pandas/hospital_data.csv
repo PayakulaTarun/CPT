@@ -1,5 +1,5 @@
 Patient_ID,Name,Age,Department,Gender,Bill
-P001,John,25,carona,M,23420.33
+P001,John,25,carona,M,12345.0
 P002,Mary,30,cancer,F,34320.23
 P003,Jane,35,neurology,F,76000.0
 P004,Peter,40,cardiology,M,20000.0
