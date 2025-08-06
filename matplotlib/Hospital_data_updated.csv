@@ -1,0 +1,7 @@
+,Patient_ID,Name,Age,Department,Gender,Bill,Status
+0,P001,John,25,carona,M,23420.33,Adult
+1,P002,Mary,30,cancer,F,34320.23,Adult
+2,P003,Jane,35,neurology,F,76000.0,Adult
+3,P004,Peter,40,cardiology,M,20000.0,Adult
+4,P005,Linda,45,cancer,F,30000.0,Adult
+5,P006,Tom,50,carona,M,,Senior
