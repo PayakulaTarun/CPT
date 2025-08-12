@@ -649,70 +649,215 @@
 # ax.grid(True)
 # plt.show()
 
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
+# from matplotlib.animation import FuncAnimation
+
+# # Function to calculate radius for different rho
+# def get_r(theta, rho):
+#     abs_cos = np.abs(np.cos(theta))
+#     abs_sin = np.abs(np.sin(theta))
+#     a = rho * (abs_cos + abs_sin)
+#     b = (1 - rho) / 2
+#     if b == 0:
+#         r = 1 / a
+#     else:
+#         disc = a**2 + 4 * b
+#         r = (-a + np.sqrt(disc)) / (2 * b)
+#     return r
+
+# # Generate mesh for 3D extrusion
+# theta = np.linspace(0, 2*np.pi, 200)
+# z = np.linspace(-1, 1, 50)
+# Theta, Z = np.meshgrid(theta, z)
+
+# # Ridge
+# r_ridge = get_r(Theta, rho=0)
+# X_ridge = r_ridge * np.cos(Theta)
+# Y_ridge = r_ridge * np.sin(Theta)
+
+# # Lasso
+# r_lasso = get_r(Theta, rho=1)
+# X_lasso = r_lasso * np.cos(Theta)
+# Y_lasso = r_lasso * np.sin(Theta)
+
+# # ElasticNet
+# r_elastic = get_r(Theta, rho=0.5)
+# X_elastic = r_elastic * np.cos(Theta)
+# Y_elastic = r_elastic * np.sin(Theta)
+
+# # Create figure
+# fig = plt.figure(figsize=(10, 8))
+# ax = fig.add_subplot(111, projection='3d')
+
+# # Plot surfaces
+# surf_ridge = ax.plot_surface(X_ridge, Y_ridge, Z, color='red', alpha=0.5)
+# surf_lasso = ax.plot_surface(X_lasso, Y_lasso, Z, color='blue', alpha=0.5)
+# surf_elastic = ax.plot_surface(X_elastic, Y_elastic, Z, color='green', alpha=0.5)
+
+# # Axis labels and title
+# ax.set_xlabel('B1', fontsize=12)
+# ax.set_ylabel('B2', fontsize=12)
+# ax.set_zlabel('Height', fontsize=12)
+# ax.set_title('3D Regularization Constraints', fontsize=14)
+
+# # Legend substitute
+# ax.text(2.2, 0, 1.0, 'Ridge (L2)', color='red', fontsize=10)
+# ax.text(0, 2.2, 1.0, 'Lasso (L1)', color='blue', fontsize=10)
+# ax.text(-2.2, 0, 1.0, 'ElasticNet', color='green', fontsize=10)
+
+# # Animation function
+# def update(frame):
+#     ax.view_init(elev=20, azim=frame)
+#     return fig,
+
+# # Create animation (slow rotation for clarity)
+# anim = FuncAnimation(fig, update, frames=np.linspace(0, 360, 180), interval=80, blit=False)
+
+# plt.show()
+
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import animation
+from sklearn.linear_model import ElasticNet
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_regression
+from sklearn.metrics import mean_squared_error
 from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.animation import FuncAnimation
 
-# Function to calculate radius for different rho
-def get_r(theta, rho):
-    abs_cos = np.abs(np.cos(theta))
-    abs_sin = np.abs(np.sin(theta))
-    a = rho * (abs_cos + abs_sin)
-    b = (1 - rho) / 2
-    if b == 0:
-        r = 1 / a
-    else:
-        disc = a**2 + 4 * b
-        r = (-a + np.sqrt(disc)) / (2 * b)
-    return r
+# ==============================
+# Step 1: Generate ElasticNet 3D Regression
+# ==============================
+np.random.seed(42)
+X, y = make_regression(n_samples=100, n_features=2, noise=10)
+X = X - np.mean(X, axis=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Generate mesh for 3D extrusion
-theta = np.linspace(0, 2*np.pi, 200)
-z = np.linspace(-1, 1, 50)
-Theta, Z = np.meshgrid(theta, z)
+elastic_net = ElasticNet(alpha=1.0, l1_ratio=0.5, random_state=42)
+elastic_net.fit(X_train, y_train)
+y_pred = elastic_net.predict(X_test)
 
-# Ridge
-r_ridge = get_r(Theta, rho=0)
-X_ridge = r_ridge * np.cos(Theta)
-Y_ridge = r_ridge * np.sin(Theta)
+print("Coefficients:", elastic_net.coef_)
+print("MSE:", mean_squared_error(y_test, y_pred))
 
-# Lasso
-r_lasso = get_r(Theta, rho=1)
-X_lasso = r_lasso * np.cos(Theta)
-Y_lasso = r_lasso * np.sin(Theta)
+x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 20)
+x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 20)
+x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+X_grid = np.column_stack((x1_grid.flatten(), x2_grid.flatten()))
+y_grid = elastic_net.predict(X_grid)
 
-# ElasticNet
-r_elastic = get_r(Theta, rho=0.5)
-X_elastic = r_elastic * np.cos(Theta)
-Y_elastic = r_elastic * np.sin(Theta)
+# === Show First Output ===
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
+ax.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
+ax.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
+ax.set_title("ElasticNet Regression", color='black')
+ax.legend()
+plt.show()
 
-# Create figure
-fig = plt.figure(figsize=(10, 8))
+# ==============================
+# Step 2: List of 3D Visualizations
+# ==============================
+def plot_surface(ax):
+    x = np.linspace(-5, 5, 50)
+    y = np.linspace(-5, 5, 50)
+    X, Y = np.meshgrid(x, y)
+    Z = np.sin(np.sqrt(X*2 + Y*2))
+    ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
+    ax.set_title("3D Surface Plot", color='black')
+
+def plot_wireframe(ax):
+    X, Y = np.meshgrid(np.linspace(-5, 5, 30), np.linspace(-5, 5, 30))
+    Z = np.sin(X) * np.cos(Y)
+    ax.plot_wireframe(X, Y, Z, color='blue')
+    ax.set_title("3D Wireframe Plot", color='black')
+
+def plot_contour(ax):
+    X, Y = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
+    Z = np.sin(np.sqrt(X*2 + Y*2))
+    ax.contour3D(X, Y, Z, 50, cmap='plasma')
+    ax.set_title("3D Contour Plot", color='black')
+
+def plot_scatter(ax):
+    x = np.random.rand(50)
+    y = np.random.rand(50)
+    z = np.random.rand(50)
+    ax.scatter(x, y, z, c=z, cmap='cool', s=50)
+    ax.set_title("3D Scatter Plot", color='black')
+
+def plot_bar3d(ax):
+    xpos = np.arange(3)
+    ypos = np.arange(3)
+    xpos, ypos = np.meshgrid(xpos, ypos)
+    xpos = xpos.flatten()
+    ypos = ypos.flatten()
+    zpos = np.zeros_like(xpos)
+    dx = dy = 0.5 * np.ones_like(zpos)
+    dz = np.random.randint(1, 10, size=len(zpos))
+    ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='orange', alpha=0.8)
+    ax.set_title("3D Bar Plot", color='black')
+
+visualizations = {
+    "surface": plot_surface,
+    "wireframe": plot_wireframe,
+    "contour": plot_contour,
+    "scatter": plot_scatter,
+    "bar3d": plot_bar3d
+}
+
+# ==============================
+# Step 3: User Selection
+# ==============================
+print("\nAvailable 3D Visualizations:")
+for name in visualizations:
+    print("-", name)
+
+choice = input("\nEnter the visualization you want to see: ").strip().lower()
+
+if choice not in visualizations:
+    print("Invalid choice. Showing default: surface plot.")
+    choice = "surface"
+
+# ==============================
+# Step 4: Show Selected Visualization
+# ==============================
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+visualizations[choice](ax)
+plt.show()
+
+# ==============================
+# Step 5: Animate Selected Visualization
+# ==============================
+fig = plt.figure(figsize=(8, 6))
 ax = fig.add_subplot(111, projection='3d')
 
-# Plot surfaces
-surf_ridge = ax.plot_surface(X_ridge, Y_ridge, Z, color='red', alpha=0.5)
-surf_lasso = ax.plot_surface(X_lasso, Y_lasso, Z, color='blue', alpha=0.5)
-surf_elastic = ax.plot_surface(X_elastic, Y_elastic, Z, color='green', alpha=0.5)
-
-# Axis labels and title
-ax.set_xlabel('B1', fontsize=12)
-ax.set_ylabel('B2', fontsize=12)
-ax.set_zlabel('Height', fontsize=12)
-ax.set_title('3D Regularization Constraints', fontsize=14)
-
-# Legend substitute
-ax.text(2.2, 0, 1.0, 'Ridge (L2)', color='red', fontsize=10)
-ax.text(0, 2.2, 1.0, 'Lasso (L1)', color='blue', fontsize=10)
-ax.text(-2.2, 0, 1.0, 'ElasticNet', color='green', fontsize=10)
-
-# Animation function
 def update(frame):
-    ax.view_init(elev=20, azim=frame)
-    return fig,
+    ax.clear()
+    visualizations[choice](ax)
+    ax.view_init(elev=30, azim=frame)
+    return ax,
 
-# Create animation (slow rotation for clarity)
-anim = FuncAnimation(fig, update, frames=np.linspace(0, 360, 180), interval=80, blit=False)
+ani = animation.FuncAnimation(fig, update, frames=360, interval=50, blit=False)
+plt.show()
+
+# ==============================
+# Step 6: Final Output (Both Plots)
+# ==============================
+fig = plt.figure(figsize=(12, 5))
+
+ax1 = fig.add_subplot(121, projection='3d')
+ax1.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
+ax1.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
+ax1.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
+ax1.set_title("ElasticNet Regression", color='black')
+ax1.legend()
+
+ax2 = fig.add_subplot(122, projection='3d')
+visualizations[choice](ax2)
+ax2.set_title(f"Selected: {choice}", color='black')
 
 plt.show()
+
