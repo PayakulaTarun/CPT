@@ -717,147 +717,147 @@
 
 # plt.show()
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import animation
-from sklearn.linear_model import ElasticNet
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import make_regression
-from sklearn.metrics import mean_squared_error
-from mpl_toolkits.mplot3d import Axes3D
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib import animation
+# from sklearn.linear_model import ElasticNet
+# from sklearn.model_selection import train_test_split
+# from sklearn.datasets import make_regression
+# from sklearn.metrics import mean_squared_error
+# from mpl_toolkits.mplot3d import Axes3D
 
-# ==============================
-# Step 1: Generate ElasticNet 3D Regression
-# ==============================
-np.random.seed(42)
-X, y = make_regression(n_samples=100, n_features=2, noise=10)
-X = X - np.mean(X, axis=0)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# # ==============================
+# # Step 1: Generate ElasticNet 3D Regression
+# # ==============================
+# np.random.seed(42)
+# X, y = make_regression(n_samples=100, n_features=2, noise=10)
+# X = X - np.mean(X, axis=0)
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-elastic_net = ElasticNet(alpha=1.0, l1_ratio=0.5, random_state=42)
-elastic_net.fit(X_train, y_train)
-y_pred = elastic_net.predict(X_test)
+# elastic_net = ElasticNet(alpha=1.0, l1_ratio=0.5, random_state=42)
+# elastic_net.fit(X_train, y_train)
+# y_pred = elastic_net.predict(X_test)
 
-print("Coefficients:", elastic_net.coef_)
-print("MSE:", mean_squared_error(y_test, y_pred))
+# print("Coefficients:", elastic_net.coef_)
+# print("MSE:", mean_squared_error(y_test, y_pred))
 
-x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 20)
-x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 20)
-x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
-X_grid = np.column_stack((x1_grid.flatten(), x2_grid.flatten()))
-y_grid = elastic_net.predict(X_grid)
+# x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 20)
+# x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 20)
+# x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+# X_grid = np.column_stack((x1_grid.flatten(), x2_grid.flatten()))
+# y_grid = elastic_net.predict(X_grid)
 
-# === Show First Output ===
-fig = plt.figure(figsize=(8, 6))
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
-ax.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
-ax.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
-ax.set_title("ElasticNet Regression", color='black')
-ax.legend()
-plt.show()
+# # === Show First Output ===
+# fig = plt.figure(figsize=(8, 6))
+# ax = fig.add_subplot(111, projection='3d')
+# ax.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
+# ax.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
+# ax.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
+# ax.set_title("ElasticNet Regression", color='black')
+# ax.legend()
+# plt.show()
 
-# ==============================
-# Step 2: List of 3D Visualizations
-# ==============================
-def plot_surface(ax):
-    x = np.linspace(-5, 5, 50)
-    y = np.linspace(-5, 5, 50)
-    X, Y = np.meshgrid(x, y)
-    Z = np.sin(np.sqrt(X*2 + Y*2))
-    ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
-    ax.set_title("3D Surface Plot", color='black')
+# # ==============================
+# # Step 2: List of 3D Visualizations
+# # ==============================
+# def plot_surface(ax):
+#     x = np.linspace(-5, 5, 50)
+#     y = np.linspace(-5, 5, 50)
+#     X, Y = np.meshgrid(x, y)
+#     Z = np.sin(np.sqrt(X*2 + Y*2))
+#     ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
+#     ax.set_title("3D Surface Plot", color='black')
 
-def plot_wireframe(ax):
-    X, Y = np.meshgrid(np.linspace(-5, 5, 30), np.linspace(-5, 5, 30))
-    Z = np.sin(X) * np.cos(Y)
-    ax.plot_wireframe(X, Y, Z, color='blue')
-    ax.set_title("3D Wireframe Plot", color='black')
+# def plot_wireframe(ax):
+#     X, Y = np.meshgrid(np.linspace(-5, 5, 30), np.linspace(-5, 5, 30))
+#     Z = np.sin(X) * np.cos(Y)
+#     ax.plot_wireframe(X, Y, Z, color='blue')
+#     ax.set_title("3D Wireframe Plot", color='black')
 
-def plot_contour(ax):
-    X, Y = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
-    Z = np.sin(np.sqrt(X*2 + Y*2))
-    ax.contour3D(X, Y, Z, 50, cmap='plasma')
-    ax.set_title("3D Contour Plot", color='black')
+# def plot_contour(ax):
+#     X, Y = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
+#     Z = np.sin(np.sqrt(X*2 + Y*2))
+#     ax.contour3D(X, Y, Z, 50, cmap='plasma')
+#     ax.set_title("3D Contour Plot", color='black')
 
-def plot_scatter(ax):
-    x = np.random.rand(50)
-    y = np.random.rand(50)
-    z = np.random.rand(50)
-    ax.scatter(x, y, z, c=z, cmap='cool', s=50)
-    ax.set_title("3D Scatter Plot", color='black')
+# def plot_scatter(ax):
+#     x = np.random.rand(50)
+#     y = np.random.rand(50)
+#     z = np.random.rand(50)
+#     ax.scatter(x, y, z, c=z, cmap='cool', s=50)
+#     ax.set_title("3D Scatter Plot", color='black')
 
-def plot_bar3d(ax):
-    xpos = np.arange(3)
-    ypos = np.arange(3)
-    xpos, ypos = np.meshgrid(xpos, ypos)
-    xpos = xpos.flatten()
-    ypos = ypos.flatten()
-    zpos = np.zeros_like(xpos)
-    dx = dy = 0.5 * np.ones_like(zpos)
-    dz = np.random.randint(1, 10, size=len(zpos))
-    ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='orange', alpha=0.8)
-    ax.set_title("3D Bar Plot", color='black')
+# def plot_bar3d(ax):
+#     xpos = np.arange(3)
+#     ypos = np.arange(3)
+#     xpos, ypos = np.meshgrid(xpos, ypos)
+#     xpos = xpos.flatten()
+#     ypos = ypos.flatten()
+#     zpos = np.zeros_like(xpos)
+#     dx = dy = 0.5 * np.ones_like(zpos)
+#     dz = np.random.randint(1, 10, size=len(zpos))
+#     ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='orange', alpha=0.8)
+#     ax.set_title("3D Bar Plot", color='black')
 
-visualizations = {
-    "surface": plot_surface,
-    "wireframe": plot_wireframe,
-    "contour": plot_contour,
-    "scatter": plot_scatter,
-    "bar3d": plot_bar3d
-}
+# visualizations = {
+#     "surface": plot_surface,
+#     "wireframe": plot_wireframe,
+#     "contour": plot_contour,
+#     "scatter": plot_scatter,
+#     "bar3d": plot_bar3d
+# }
 
-# ==============================
-# Step 3: User Selection
-# ==============================
-print("\nAvailable 3D Visualizations:")
-for name in visualizations:
-    print("-", name)
+# # ==============================
+# # Step 3: User Selection
+# # ==============================
+# print("\nAvailable 3D Visualizations:")
+# for name in visualizations:
+#     print("-", name)
 
-choice = input("\nEnter the visualization you want to see: ").strip().lower()
+# choice = input("\nEnter the visualization you want to see: ").strip().lower()
 
-if choice not in visualizations:
-    print("Invalid choice. Showing default: surface plot.")
-    choice = "surface"
+# if choice not in visualizations:
+#     print("Invalid choice. Showing default: surface plot.")
+#     choice = "surface"
 
-# ==============================
-# Step 4: Show Selected Visualization
-# ==============================
-fig = plt.figure(figsize=(8, 6))
-ax = fig.add_subplot(111, projection='3d')
-visualizations[choice](ax)
-plt.show()
+# # ==============================
+# # Step 4: Show Selected Visualization
+# # ==============================
+# fig = plt.figure(figsize=(8, 6))
+# ax = fig.add_subplot(111, projection='3d')
+# visualizations[choice](ax)
+# plt.show()
 
-# ==============================
-# Step 5: Animate Selected Visualization
-# ==============================
-fig = plt.figure(figsize=(8, 6))
-ax = fig.add_subplot(111, projection='3d')
+# # ==============================
+# # Step 5: Animate Selected Visualization
+# # ==============================
+# fig = plt.figure(figsize=(8, 6))
+# ax = fig.add_subplot(111, projection='3d')
 
-def update(frame):
-    ax.clear()
-    visualizations[choice](ax)
-    ax.view_init(elev=30, azim=frame)
-    return ax,
+# def update(frame):
+#     ax.clear()
+#     visualizations[choice](ax)
+#     ax.view_init(elev=30, azim=frame)
+#     return ax,
 
-ani = animation.FuncAnimation(fig, update, frames=360, interval=50, blit=False)
-plt.show()
+# ani = animation.FuncAnimation(fig, update, frames=360, interval=50, blit=False)
+# plt.show()
 
-# ==============================
-# Step 6: Final Output (Both Plots)
-# ==============================
-fig = plt.figure(figsize=(12, 5))
+# # ==============================
+# # Step 6: Final Output (Both Plots)
+# # ==============================
+# fig = plt.figure(figsize=(12, 5))
 
-ax1 = fig.add_subplot(121, projection='3d')
-ax1.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
-ax1.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
-ax1.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
-ax1.set_title("ElasticNet Regression", color='black')
-ax1.legend()
+# ax1 = fig.add_subplot(121, projection='3d')
+# ax1.scatter(X_test[:, 0], X_test[:, 1], y_test, color='blue', label='Actual', alpha=0.8)
+# ax1.scatter(X_test[:, 0], X_test[:, 1], y_pred, color='red', label='Predicted', alpha=0.8)
+# ax1.plot_trisurf(x1_grid.flatten(), x2_grid.flatten(), y_grid, color='green', alpha=0.5)
+# ax1.set_title("ElasticNet Regression", color='black')
+# ax1.legend()
 
-ax2 = fig.add_subplot(122, projection='3d')
-visualizations[choice](ax2)
-ax2.set_title(f"Selected: {choice}", color='black')
+# ax2 = fig.add_subplot(122, projection='3d')
+# visualizations[choice](ax2)
+# ax2.set_title(f"Selected: {choice}", color='black')
 
-plt.show()
+# plt.show()
 
